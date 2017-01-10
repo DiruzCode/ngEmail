@@ -1,0 +1,32 @@
+angular.module('ngEmail')
+.directive('ngEmail', ['$log', function($log)
+{
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function(scope, elem, attrs, controller)
+        {
+            var pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+            controller.$validators.email = function(modelValue, viewValue)
+            {
+
+                if (controller.$isEmpty(modelValue))
+                {
+                    // consider empty models to be valid
+                    return true;
+                }
+
+                if (controller.$isEmpty(viewValue))
+                {
+                    //is View Value is empty
+                    return false;
+                }
+
+                //Validate
+                return pattern.test(viewValue); // returns a boolean 
+            };
+
+        }
+    };
+}]);
